@@ -1,0 +1,12 @@
+<template name="events">
+    <div id="content">
+        <h2 class="text-center">Events</h2>
+        {{#each events}}
+        <section class="box">
+            <a target="_blank" href="{{link}}"><h3>{{name}}</h3></a>
+            <p>{{date}}, {{month}} {{day}} {{year}} {{times}}</p>
+            <p>{{description}}</p>
+        </section>
+        {{/each}}
+    </div>
+</template>

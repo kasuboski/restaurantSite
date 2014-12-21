@@ -1,0 +1,83 @@
+<template name="home">
+    <!-- Main component for a primary marketing message or call to action -->
+    <div class="jumbotron">
+        <img src="sipps.jpg" width="670px" height="400px"/>
+        <p class="caption">The Sippel family, proud owners of Sipp's Bar N Grill.</p>
+    </div>
+
+    <div id="content">
+        <div class="row">
+            <div class="col-md-6">
+                {{> hours}}
+                {{> nextEvent}}
+            </div>
+            <div class="col-md-6">
+                {{> specials}}
+                {{> map}}
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="hours">
+    <section class="box text-center">
+        <h2 class="boxTitle">
+            <span class="glyphicon glyphicon-time"></span>
+            Hours</h2>
+        {{#each hours}}
+            <h4>{{days}}</h4>
+            <p>{{times}}</p>
+        {{/each}}
+    </section>
+</template>
+
+<template name="nextEvent">
+    <section class="box text-center">
+        <h2 class="boxTitle">
+            <span class="glyphicon glyphicon-calendar"></span>
+            Next Event</h2>
+        {{#if haveEvent}}
+            {{#with event}}
+                <h4>{{name}}</h4>
+                <p>{{date}} {{month}} {{day}} {{year}}</p>
+                <p>{{times}}</p>
+                <p>{{description}}</p>
+            {{/with}}
+        {{else}}
+            <p>No upcoming events</p>
+        {{/if}}
+    </section>
+</template>
+
+<template name="specials">
+    <section class="box">
+        <h2 class="boxTitle text-center">
+            <span class="glyphicon glyphicon-cutlery"></span>
+            Specials</h2>
+        {{#if haveSpecial}}
+            <ul class="list-group">
+            {{#each specials}}
+                {{> special}}
+            {{/each}}
+            </ul>
+        {{else}}
+            <p>No specials have been added</p>
+        {{/if}}
+    </section>
+</template>
+
+<template name="special">
+    <li class="list-group-item">
+        <span class="h4">{{name}}</span><span class="right">{{priceDollars}}<span class="change">{{priceCents}}</span></span>
+        <p>{{description}}</p>
+    </li>
+</template>
+
+<template name="map">
+    <section class="box text-center">
+        <h2 class="boxTitle">
+            <span class="glyphicon glyphicon-map-marker"></span>
+            Map</h2>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2886.499763056192!2d-88.00596999999999!3d43.658575!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88049b29e1e1c9ef%3A0x66d349f6799fec92!2sSipp&#39;s+Bar+-N-+Grill!5e0!3m2!1sen!2sus!4v1418973033347" width="280" height="210" frameborder="0" style="border:0"></iframe>
+    </section>
+</template>

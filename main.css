@@ -1,4 +1,4 @@
-.bg {
+html {
 	background: url("woodbg.jpg") no-repeat center center fixed;
 }
 
@@ -11,7 +11,12 @@ body {
 
 h1,h2,h3,h4,.h1,.h2,.h3,.h4 {
 	margin-top: 0px;
-	font-family: "Patua One", serif;
+	font-family: "Patua One", Helvetica, serif;
+}
+
+a > h3 {
+	color: #333;
+	text-decoration: underline;
 }
 
 address {
@@ -65,7 +70,6 @@ header h1 {
 
 .box {
 	background-color: #fff;
-	text-align: center;
 	padding: 20px;
 	margin-bottom: 20px;
 }
