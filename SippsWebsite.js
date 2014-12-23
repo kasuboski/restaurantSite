@@ -38,24 +38,16 @@ Router.route('/contact', function() {
 
 Router.route('/admin', function() {
     if(Meteor.userId()){
-        this.redirect("/dashboard");
+        this.layout('');
+        this.render('dashboard');
     }
     else {
-        this.redirect("/signin");
+        this.layout('');
+        this.render('signin');
     }
 }, {
     name: "admin"
 });
-
-Router.route('/signin', function() {
-    this.layout('');
-    this.render('signin');
-});
-
-Router.route('/dashboard', function() {
-    this.layout('');
-    this.render('dashboard');
-})
 
 if (Meteor.isClient) {
 
