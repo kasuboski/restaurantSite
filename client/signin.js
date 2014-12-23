@@ -13,7 +13,7 @@ Template.signin.events({
                 $(".error").show();
             } else {
                 // The user has been logged in.
-                Router.go('/dashboard');
+                Router.go('/admin');
             }
         });
         return false;
