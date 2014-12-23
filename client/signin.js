@@ -9,6 +9,8 @@ Template.signin.events({
                 // The user might not have been found, or their passwword
                 // could be incorrect. Inform the user that their
                 // login attempt has failed.
+                $(".error").text("Your username or password was not found");
+                $(".error").show();
             } else {
                 // The user has been logged in.
                 Router.go('/dashboard');

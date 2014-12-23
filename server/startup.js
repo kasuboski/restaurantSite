@@ -1,4 +1,9 @@
 Meteor.startup(function () {
+    Accounts.createUser({
+        username: "SippsAdmin",
+        password: "SippsBarCascade507"
+    });
+
     if(Events.find().count() === 0) {
         Events.insert({
             name: "Test Event 2",

@@ -37,10 +37,19 @@ Router.route('/contact', function() {
 });
 
 Router.route('/admin', function() {
-    this.layout('');
-    this.render('signin');
+    if(Meteor.userId()){
+        this.redirect("/dashboard");
+    }
+    else {
+        this.redirect("/signin");
+    }
 }, {
     name: "admin"
+});
+
+Router.route('/signin', function() {
+    this.layout('');
+    this.render('signin');
 });
 
 Router.route('/dashboard', function() {
