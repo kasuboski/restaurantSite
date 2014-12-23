@@ -1,8 +1,10 @@
 Meteor.startup(function () {
-    Accounts.createUser({
-        username: "SippsAdmin",
-        password: "SippsBarCascade507"
-    });
+    if(Meteor.users.find().count() === 0) {
+        Accounts.createUser({
+            username: "SippsAdmin",
+            password: "SippsBarCascade507"
+        });
+    }
 
     if(Events.find().count() === 0) {
         Events.insert({
