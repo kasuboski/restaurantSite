@@ -1,0 +1,10 @@
+me": "myapp",
+  "version": "0.0.1",
+  "engines": {
+    "node": "0.10.33",
+    "npm":  "1.4.23"
+  },
+  "dependencies": {
+    "fibers": "1.0.0"
+  }
+}
