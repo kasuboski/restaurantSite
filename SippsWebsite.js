@@ -36,6 +36,18 @@ Router.route('/contact', function() {
     name: "contact"
 });
 
+Router.route('/admin', function() {
+    this.layout('');
+    this.render('signin');
+}, {
+    name: "admin"
+});
+
+Router.route('/dashboard', function() {
+    this.layout('');
+    this.render('dashboard');
+})
+
 if (Meteor.isClient) {
 
     //for layout
@@ -46,181 +58,100 @@ if (Meteor.isClient) {
         }
     });
 
-    //For home page
-    Template.hours.helpers({
-        hours: function() {
-            return Hours.find();
-        }
-    });
-
-    Template.nextEvent.helpers({
-        event: function() {
-            return Events.findOne({},{sort: {date: 1}});
-        },
-        haveEvent: function() {
-            return Events.find().count() > 0;
-        },
-        date: function() {
-            return this.date.toDateString().substring(0,3);
-        },
-        day: function() {
-            return this.date.getDate();
-        },
-        year: function() {
-            return this.date.getFullYear();
-        },
-        month: function() {
-            return this.date.toDateString().substring(4,7);
-        }
-    });
-
-    Template.specials.helpers({
-        haveSpecial: function() {
-            return Specials.find().count() > 0;
-        },
-        specials: function() {
-            return Specials.find({});
-        }
-    });
-
-    Template.special.helpers({
-        priceDollars: function () {
-            return Math.floor(this.price);
-        },
-        priceCents: function () {
-            return (this.price-Math.floor(this.price)).toFixed(2).toString().substring(2);
-        }
-    });
-
-    //For Menu
-    Template.menu.helpers({
-        categories: function() {
-            return Categories.find({},{sort: {order: 1}});
-        },
-        items: function() {
-            return Menu.find({category: this});
-        }
-    });
-
-    Template.item.helpers({
-        priceDollars: function () {
-            return Math.floor(this.price);
-        },
-        priceCents: function () {
-            return (this.price-Math.floor(this.price)).toFixed(2).toString().substring(2);
-        }
-    });
-
-    //For Events
-    Template.events.helpers({
-        events: function() {
-            return Events.find({}, {sort:{date:1}});
-        },
-        date: function() {
-            return this.date.toDateString().substring(0,3);
-        },
-        day: function() {
-            return this.date.getDate();
-        },
-        year: function() {
-            return this.date.getFullYear();
-        },
-        month: function() {
-            return this.date.toDateString().substring(4,7);
-        }
-    });
-
 }
 
-if (Meteor.isServer) {
-  Meteor.startup(function () {
-    if(Events.find().count() === 0) {
-        Events.insert({
-            name: "Test Event 2",
-            date: new Date("1/23/15"),
-            times: "11am - 12pm",
-            description: "So much fun",
-            link: "http://joshcorp.co"
-        })
-
-        Events.insert({
-            name: "Test Event",
-            date: new Date("12/25/14"),
-            times: "6pm - 12pm",
-            description: "A really good time",
-            link: "http://joshcorp.co"
-        });
-    }
-
-    if(Specials.find().count() === 0) {
-        Specials.insert({
-            name: "Chicken",
-            price: 5.50,
-            description: "It's delicious"
-        });
+//methods
+Meteor.methods({
+    addSpecial: function(name, price, desc) {
+        if( ! Meteor.userId()) {
+            throw new Meteor.Error("not-authorized");
+        }
 
         Specials.insert({
-            name: "Steak",
-            price: 4.50,
-            description: "STEAK"
-        })
-    }
-
-    if(Hours.find().count() === 0) {
-        Hours.insert({
-            days: "Sunday - Thursday",
-            times: "11am-2am"
+                name: name,
+                price: price,
+                description: desc
         });
+    },
+    removeSpecial: function(specialId) {
+        if( ! Meteor.userId()) {
+            throw new Meteor.Error("not-authorized");
+        }
 
-        Hours.insert({
-            days: "Friday / Saturday",
-            times: "11am-2:30am"
+        Specials.remove(specialId);
+    },
+    addEvent: function(name, date, times, desc, link) {
+        if(! Meteor.userId()) {
+            throw new Meteor.Error("not-authorized");
+        }
+
+        Events.insert({
+            name: name,
+            date: date,
+            times: times,
+            description: desc,
+            link: link
         });
-    }
+    },
+    removeEvent: function(eventId) {
+        if( ! Meteor.userId()) {
+            throw new Meteor.Error("not-authorized");
+        }
 
-    if(Categories.find().count() === 0) {
+        Events.remove(eventId);
+    },
+    addCategory: function(name,desc,order) {
+        if(! Meteor.userId()) {
+            throw new Meteor.Error("not-authorized");
+        }
+
         Categories.insert({
-            name: "Steaks and Dinners",
-            description: "Steaky",
-            order: 6
+            name: name,
+            description: desc,
+            order: order
         });
+    },
+    removeCategory: function(categoryId) {
+        if( ! Meteor.userId()) {
+            throw new Meteor.Error("not-authorized");
+        }
 
-        Categories.insert({
-            name: "Appetizers",
-            description: "Share or don't",
-            order: 1
-        })
+        Categories.remove(categoryId);
+    },
+    addMenuItem: function(name, price, desc, category) {
+        if( ! Meteor.userId()) {
+            throw new Meteor.Error("not-authorized");
+        }
+
+        Menu.insert({
+            name: name,
+            price: price,
+            description: desc,
+            category: Categories.findOne(category)
+        });
+    },
+    removeMenuItems: function(selector) {
+        if( ! Meteor.userId()) {
+            throw new Meteor.Error("not-authorized");
+        }
+
+        Menu.remove(selector);
+    },
+    addHour: function(days,times) {
+        if( ! Meteor.userId()) {
+            throw new Meteor.Error("not-authorized");
+        }
+
+        Hours.insert({
+            days: days,
+            times: times
+        });
+    },
+    removeHour: function(hourId) {
+        if( ! Meteor.userId()) {
+            throw new Meteor.Error("not-authorized");
+        }
+
+        Hours.remove(hourId);
     }
-
-    if(Menu.find().count() === 0) {
-        Menu.insert({
-            name: "Pork Chops",
-            price: 14.50,
-            description: "Choppy",
-            category: Categories.findOne({name: "Steaks and Dinners"})
-        });
-
-        Menu.insert({
-            name: "Ribs and Chicken Combo",
-            price: 14.00,
-            description: "Two Things!",
-            category: Categories.findOne({name: "Steaks and Dinners"})
-        });
-
-        Menu.insert({
-            name: "Cheese Nuggets",
-            price: 3.29,
-            description: "",
-            category: Categories.findOne({name: "Appetizers"})
-        });
-
-        Menu.insert({
-            name: "Onion Rings",
-            price: 3.50,
-            description: "So Many Onions",
-            category: Categories.findOne({name: "Appetizers"})
-        })
-    }
-
-  });
-}
+});

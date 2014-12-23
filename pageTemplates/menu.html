@@ -3,13 +3,17 @@
         {{#each categories}}
             <h2 class="text-center">{{name}}</h2>
             <p class="text-center">{{description}}</p>
-            <ul class="list-group">
-                {{#each items}}
-                    {{> item}}
-                {{/each}}
-            </ul>
+            {{> menuItems}}
         {{/each}}
     </div>
+</template>
+
+<template name="menuItems">
+    <ul class="list-group">
+        {{#each items}}
+            {{> item}}
+        {{/each}}
+    </ul>
 </template>
 
 <template name="item">

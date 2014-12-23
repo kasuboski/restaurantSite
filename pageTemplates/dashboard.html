@@ -1,0 +1,351 @@
+<template name="dashboard">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="http://fonts.googleapis.com/css?family=Patua+One:400" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Rokkitt:400,700" rel="stylesheet" type="text/css">
+
+    <div class="container">
+        <div id="content">
+            <header>
+                <span class="h1">Dashboard</span>
+                {{#if currentUser}}
+                    <span class="h3 right">{{currentUser.username}} logged in.</span>
+                {{else}}
+                    <h2>You need to be logged in.</h2>
+                {{/if}}
+            </header>
+
+            <section class="box">
+                <h2>Update Specials</h2>
+                {{> addSpecial}}
+                <ul class="list-group">
+                    {{#each specials}}
+                        {{> specialRemove}}
+                    {{/each}}
+                </ul>
+            </section>
+
+            <section class="box">
+                <h2>Update Events</h2>
+                {{> addEvent}}
+                <ul class="list-group">
+                    {{#each events}}
+                        {{> eventRemove}}
+                    {{/each}}
+                </ul>
+            </section>
+
+            <section class="box">
+                <h2>Update Menu</h2>
+                {{> editMenu}}
+                {{> addMenuItem}}
+                {{> categories}}
+            </section>
+
+            <section class="box">
+                <h2>Change Hours</h2>
+                {{> hoursChange}}
+            </section>
+        </div>
+    </div> <!-- /container -->
+</template>
+
+<template name="addSpecial">
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingOne">
+                <h3 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Add Special
+                    </a>
+                </h3>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                <div class="panel-body">
+                    <form id="add-special" class="form-horizontal" role="form">
+                        <div class="error" style="display:none;color:red"></div>
+                        <div class="form-group">
+                            <label for="inputName" class="col-sm-2 control-label">Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="inputName" placeholder="Menu item name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPrice" class="col-sm-2 control-label">Price</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="inputPrice" placeholder="Price">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputDesc" class="col-sm-2 control-label">Description</label>
+                            <div class="col-sm-10">
+                                <textarea id="inputDesc" class="form-control" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-default">Add Special</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="specialRemove">
+    <li class="list-group-item">
+        <span class="h4">{{name}}</span><span class="right">{{priceDollars}}<span class="change">{{priceCents}}</span> <button class="btn btn-default btn-xs delete" id="removeSpecial">&times;</button></span>
+        <p>{{description}}</p>
+    </li>
+</template>
+
+<template name="addEvent">
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingTwo">
+                <h3 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                        Add Event
+                    </a>
+                </h3>
+            </div>
+            <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                <div class="panel-body">
+                    <form id="add-event" class="form-horizontal" role="form">
+                        <div class="error" style="display:none;color:red"></div>
+                        <div class="form-group">
+                            <label for="inputName" class="col-sm-2 control-label">Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="inputName" placeholder="Event name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputDate" class="col-sm-2 control-label">Date</label>
+                            <div class="col-sm-10">
+                                {{> datepicker}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputTime" class="col-sm-2 control-label">Time</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="inputTime" placeholder="Time">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputLink" class="col-sm-2 control-label">Link</label>
+                            <div class="col-sm-10">
+                                <input type="url" class="form-control" id="inputLink" placeholder="Link to event e.g. Facebook">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputDesc" class="col-sm-2 control-label">Description</label>
+                            <div class="col-sm-10">
+                                <textarea id="inputDesc" class="form-control" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-default">Add Event</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="datepicker">
+    <input type="text" class="form-control datepicker" id="inputDate" placeholder="Date of the event">
+</template>
+
+<template name="eventRemove">
+    <li class="list-group-item"><span class="h4">{{name}}</span><button class="btn btn-default btn-xs delete right" id="removeEvent">&times;</button></li>
+</template>
+
+<template name="editMenu">
+    {{#each categories}}
+        <h2 class="text-center">{{order}}. {{name}} <button class="btn btn-default btn-xs delete" data-toggle="modal" data-target="#categoryConfirm">&times;</button></h2>
+        <div class="modal fade" id="categoryConfirm" tabindex="-1" role="dialog" aria-labelledby="confirmationHead" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="confirmationHead">Remove Category</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to remove this category?</p>
+                        <p> It will also remove all menu items associated with it.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-default" data-dismiss="modal" id="removeCategory">Remove Category</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ul class="list-group">
+            {{#each items}}
+                {{> itemRemove}}
+            {{/each}}
+        </ul>
+    {{/each}}
+</template>
+
+<template name="itemRemove">
+    <li class="list-group-item">
+        <span class="h4">{{name}}</span><button class="btn btn-default btn-xs delete right" id="removeMenuItem">&times;</button>
+        <span class="right">{{priceDollars}}<span class="change">{{priceCents}}</span>&nbsp;</span>
+    </li>
+</template>
+
+<template name="addMenuItem">
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingFour">
+                <h3 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                        Add Menu Item
+                    </a>
+                </h3>
+            </div>
+            <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+                <div class="panel-body">
+                    <form id="add-menu-item" class="form-horizontal" role="form">
+                        <div class="error" style="display:none;color:red"></div>
+                        <div class="form-group">
+                            <label for="inputName" class="col-sm-2 control-label">Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="inputName" placeholder="Menu item name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPrice" class="col-sm-2 control-label">Price</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="inputPrice" placeholder="Price">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputCategory" class="col-sm-2 control-label">Category</label>
+                            <div class="col-sm-10">
+                                <select id="inputCategory">
+                                    {{#each categories}}
+                                        <option value={{_id}}>{{name}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputDesc" class="col-sm-2 control-label">Description</label>
+                            <div class="col-sm-10">
+                                <textarea id="inputDesc" class="form-control" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-default">Add Item</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="categories">
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingThree">
+                <h3 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                        Add Category
+                    </a>
+                </h3>
+            </div>
+            <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                <div class="panel-body">
+                    <form id="add-category" class="form-horizontal" role="form">
+                        <div class="error" style="display:none;color:red"></div>
+                        <div class="form-group">
+                            <label for="inputName" class="col-sm-2 control-label">Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="inputName" placeholder="Category name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputDesc" class="col-sm-2 control-label">Description</label>
+                            <div class="col-sm-10">
+                                <textarea id="inputDesc" class="form-control" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputOrder" class="col-sm-2 control-label">Order</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="inputOrder" placeholder="Number that indicates ordering">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-default">Add Category</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="hoursChange">
+    <ul class="list-group">
+        {{#each hours}}
+            <li class="list-group-item">
+                <button class="btn btn-default btn-xs delete right" id="removeHours">&times;</button>
+                <h4>{{days}}</h4>
+                <p>{{times}}</p>
+            </li>
+        {{/each}}
+    </ul>
+    {{> addHours}}
+</template>
+
+<template name="addHours">
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingFive">
+                <h3 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
+                        Add Hours
+                    </a>
+                </h3>
+            </div>
+            <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
+                <div class="panel-body">
+                    <form id="add-hours" class="form-horizontal" role="form">
+                        <div class="error" style="display:none;color:red"></div>
+                        <div class="form-group">
+                            <label for="inputDays" class="col-sm-2 control-label">Days</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="inputDays" placeholder="Monday - Friday">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputTimes" class="col-sm-2 control-label">Order</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="inputTimes" placeholder="11am - 2am">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-default">Add Hours</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

@@ -9,3 +9,6 @@ insecure
 mizzao:bootstrap-3
 
 iron:router
+accounts-password
+accounts-base
+rajit:bootstrap3-datepicker

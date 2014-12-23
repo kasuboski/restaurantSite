@@ -32,7 +32,7 @@ address {
 	display: inline;
 }
 
-.glyphicon {
+.boxTitle > .glyphicon {
 	font-size: 36px;
 	color: #d0d0d0;
 	display:block;
