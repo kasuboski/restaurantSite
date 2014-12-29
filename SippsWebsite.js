@@ -128,7 +128,7 @@ Meteor.methods({
             name: name,
             price: price,
             description: desc,
-            category: Categories.findOne(category)
+            category: category
         });
     },
     removeMenuItems: function(selector) {

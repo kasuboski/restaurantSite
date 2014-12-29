@@ -13,7 +13,7 @@ Meteor.startup(function () {
             times: "11am - 12pm",
             description: "So much fun",
             link: "http://joshcorp.co"
-        })
+        });
 
         Events.insert({
             name: "Test Event",
@@ -35,7 +35,7 @@ Meteor.startup(function () {
             name: "Steak",
             price: 4.50,
             description: "STEAK"
-        })
+        });
     }
 
     if(Hours.find().count() === 0) {
@@ -61,7 +61,7 @@ Meteor.startup(function () {
             name: "Appetizers",
             description: "Share or don't",
             order: 1
-        })
+        });
     }
 
     if(Menu.find().count() === 0) {
@@ -69,29 +69,29 @@ Meteor.startup(function () {
             name: "Pork Chops",
             price: 14.50,
             description: "Choppy",
-            category: Categories.findOne({name: "Steaks and Dinners"})
+            category: Categories.findOne({name: "Steaks and Dinners"})._id
         });
 
         Menu.insert({
             name: "Ribs and Chicken Combo",
             price: 14.00,
             description: "Two Things!",
-            category: Categories.findOne({name: "Steaks and Dinners"})
+            category: Categories.findOne({name: "Steaks and Dinners"})._id
         });
 
         Menu.insert({
             name: "Cheese Nuggets",
             price: 3.29,
             description: "",
-            category: Categories.findOne({name: "Appetizers"})
+            category: Categories.findOne({name: "Appetizers"})._id
         });
 
         Menu.insert({
             name: "Onion Rings",
             price: 3.50,
             description: "So Many Onions",
-            category: Categories.findOne({name: "Appetizers"})
-        })
+            category: Categories.findOne({name: "Appetizers"})._id
+        });
     }
 
   });

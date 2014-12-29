@@ -111,16 +111,16 @@ Template.editMenu.helpers({
         return Categories.find({},{sort: {order: 1}});
     },
     items: function() {
-        return Menu.find({category: this});
+        return Menu.find({category: this._id});
     }
 });
 
 Template.editMenu.events({
     'click #removeCategory': function() {
-        // console.log("remove: " +this._id);
-        // console.log("remove: " + Menu.find({category: this}).fetch());
-        Meteor.call("removeCategory", this._id);
+        // console.log("remove: " + Categories.findOne(this._id).name);
+        // console.log("remove: " + Menu.find({category: this._id}).fetch());
         Meteor.call("removeMenuItems",{category: this._id});
+        Meteor.call("removeCategory", this._id);
     }
 });
 
@@ -130,6 +130,12 @@ Template.itemRemove.helpers({
     },
     priceCents: function () {
         return (this.price-Math.floor(this.price)).toFixed(2).toString().substring(2);
+    }
+});
+
+Template.itemRemove.events({
+    'click #removeMenuItem' : function() {
+        Meteor.call("removeMenuItems",this._id);
     }
 });
 

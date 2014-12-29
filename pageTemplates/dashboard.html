@@ -169,23 +169,7 @@
 
 <template name="editMenu">
     {{#each categories}}
-        <h2 class="text-center">{{order}}. {{name}} <button class="btn btn-default btn-xs delete" data-toggle="modal" data-target="#categoryConfirm">&times;</button></h2>
-        <div class="modal fade" id="categoryConfirm" tabindex="-1" role="dialog" aria-labelledby="confirmationHead" aria-hidden="true">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="confirmationHead">Remove Category</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>Are you sure you want to remove this category?</p>
-                        <p> It will also remove all menu items associated with it.</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-default" data-dismiss="modal" id="removeCategory">Remove Category</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <h2 class="text-center">{{order}}. {{name}} <button class="btn btn-default btn-xs delete" id="removeCategory">&times;</button></h2>
         <ul class="list-group">
             {{#each items}}
                 {{> itemRemove}}

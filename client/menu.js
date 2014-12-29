@@ -7,7 +7,7 @@ Template.menu.helpers({
 
 Template.menuItems.helpers({
     items: function() {
-        return Menu.find({category: this});
+        return Menu.find({category: this._id});
     }
 });
 
